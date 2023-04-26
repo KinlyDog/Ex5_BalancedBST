@@ -25,19 +25,20 @@ class BalancedBST {
     public void GenerateTree(int[] a) {
         Arrays.sort(a);
 
-        Root = GenerateTreeRec(a, 0, a.length - 1, null);
+        Root = GenerateTreeRec(a, 0, a.length - 1, null, 0);
     }
 
-    private BSTNode GenerateTreeRec(int[] a, int start, int end, BSTNode parent) {
+    private BSTNode GenerateTreeRec(int[] a, int start, int end, BSTNode parent, int level) {
         if (start > end) {
             return null;
         }
 
         int mid = (start + end) / 2;
         BSTNode node = new BSTNode(a[mid], parent);
+        node.Level = level;
 
-        node.LeftChild = GenerateTreeRec(a, start, mid - 1, node);
-        node.RightChild = GenerateTreeRec(a, mid + 1, end, node);
+        node.LeftChild = GenerateTreeRec(a, start, mid - 1, node, level + 1);
+        node.RightChild = GenerateTreeRec(a, mid + 1, end, node, level + 1);
 
         return node;
     }
@@ -47,19 +48,23 @@ class BalancedBST {
             return true;
         }
 
-        if (Math.abs(GetTreeHeight(node.LeftChild) - GetTreeHeight(node.RightChild)) > 1) {
-            return false;
+        int leftDepth = GetDepth(node.LeftChild);
+        int rightDepth = GetDepth(node.RightChild);
+
+        if (Math.abs(leftDepth - rightDepth) <= 1 &&
+                IsBalanced(node.LeftChild) &&
+                IsBalanced(node.RightChild)) {
+            return true;
         }
 
-        return IsBalanced(node.LeftChild) && IsBalanced(node.RightChild);
+        return false;
     }
 
-    private int GetTreeHeight(BSTNode node) {
+    private int GetDepth(BSTNode node) {
         if (node == null) {
             return 0;
         }
 
-        return Math.max(GetTreeHeight(node.LeftChild), GetTreeHeight(node.RightChild)) + 1;
+        return node.Level;
     }
-
-}  
+}
