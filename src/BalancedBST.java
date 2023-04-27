@@ -51,13 +51,11 @@ class BalancedBST {
         int leftDepth = GetDepth(node.LeftChild);
         int rightDepth = GetDepth(node.RightChild);
 
-        if (Math.abs(leftDepth - rightDepth) <= 1 &&
-                IsBalanced(node.LeftChild) &&
-                IsBalanced(node.RightChild)) {
-            return true;
+        if (Math.abs(leftDepth - rightDepth) > 1) {
+            return false;
         }
 
-        return false;
+        return IsBalanced(node.LeftChild) && IsBalanced(node.RightChild);
     }
 
     private int GetDepth(BSTNode node) {
