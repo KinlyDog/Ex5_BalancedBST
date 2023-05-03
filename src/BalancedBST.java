@@ -43,19 +43,19 @@ class BalancedBST {
         return node;
     }
 
-    public boolean IsBalanced(BSTNode node) {
-        if (node == null) {
+    public boolean IsBalanced(BSTNode root_node) {
+        if (root_node == null) {
             return true;
         }
 
-        int leftDepth = getDepth(node.LeftChild);
-        int rightDepth = getDepth(node.RightChild);
+        int leftDepth = getDepth(root_node.LeftChild);
+        int rightDepth = getDepth(root_node.RightChild);
 
         if (Math.abs(leftDepth - rightDepth) > 1) {
             return false;
         }
 
-        return IsBalanced(node.LeftChild) && IsBalanced(node.RightChild);
+        return IsBalanced(root_node.LeftChild) && IsBalanced(root_node.RightChild);
     }
 
     private int getDepth(BSTNode node) {
